@@ -25,7 +25,8 @@ const handleWin = (letter) => {
     //this handles and prints if x has won or o and set gameIsLive to false since someone has won or game is tied so game should not proceed
     gameIsLive = false;
     if(letter === 'x'){
-        statusDiv.innerHTML = `${letterToSymbol(letter)} has won!`;
+//         statusDiv.innerHTML = `${letterToSymbol(letter)} has won!`;
+           alert(`${letterToSymbol(letter)} has won!`);
     }else{
         statusDiv.innerHTML = `<span>${letterToSymbol(letter)} has won!</span>`;
     }

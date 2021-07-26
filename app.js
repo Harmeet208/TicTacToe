@@ -26,7 +26,7 @@ const handleWin = (letter) => {
     gameIsLive = false;
     if(letter === 'x'){
 //         statusDiv.innerHTML = `${letterToSymbol(letter)} has won!`;
-           alert(`${letterToSymbol(letter)} has won!`);
+           alert("X has Won");
     }else{
         statusDiv.innerHTML = `<span>${letterToSymbol(letter)} has won!</span>`;
     }

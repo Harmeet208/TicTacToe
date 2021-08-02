@@ -2,7 +2,7 @@
 const statusDiv = document.querySelector('.status');
 const resetDiv = document.querySelector('.reset');
 const cellDivs = document.querySelectorAll('.game-cell');
-const start = document.querySelector('.start-page');
+const start = document.querySelector('#start-page');
 const container = document.querySelector('.container');
 
 // game constants

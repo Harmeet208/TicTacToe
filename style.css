@@ -17,7 +17,7 @@ body {
   padding: 50px;
   border-radius: 25px;
 }
-
+/* 
 #start-page{
   height: 70px;
   width: 250px;
@@ -34,7 +34,7 @@ body {
 
 #start-page:hover{
   box-shadow: inset 3px 3px 5px rgba(255, 255, 255, 0.5), inset -2px -2px 5px rgba(0, 0, 0, 0.3);
-}
+} */
 
 .title {
   text-align: center;

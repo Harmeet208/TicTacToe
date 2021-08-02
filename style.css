@@ -18,6 +18,24 @@ body {
   border-radius: 25px;
 }
 
+.start-page{
+  height: 70px;
+  width: 250px;
+  text-align: center;
+  padding: 20px 0;
+  background: linear-gradient(#bf8006, #f8d201);
+  color: #191e2d;
+  font-size: 23px;
+  font-weight: 700;
+  border-radius: 30px 10px;
+  border: 1px solid #f3d031;
+  cursor: pointer; 
+}
+
+.start-page:hover{
+  box-shadow: inset 3px 3px 5px rgba(255, 255, 255, 0.5), inset -2px -2px 5px rgba(0, 0, 0, 0.3);
+}
+
 .title {
   text-align: center;
 }

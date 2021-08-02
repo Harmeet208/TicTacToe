@@ -2,6 +2,8 @@
 const statusDiv = document.querySelector('.status');
 const resetDiv = document.querySelector('.reset');
 const cellDivs = document.querySelectorAll('.game-cell');
+const start = document.querySelector('.start-page');
+const container = document.querySelector('.container');
 
 // game constants
 
@@ -15,6 +17,11 @@ const oSymbol = '○';
 let gameIsLive = true;
 let xIsNext = true; //if this variable is true then x has next turn
 
+//what happen when 'Start' Button Will Click
+start.addEventListener("click", () => {
+    start.style.display = "none";
+    container.style.display = "block";
+});
 
 // functions
 

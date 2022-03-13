@@ -1,34 +1,56 @@
-<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Tic Tac Toe</title>
+    <script src="./app.js"></script>
+    <title>Tic-Tac-Toe</title>
 </head>
+
 <body>
-<!--     <div id="start-page">
-        Start
-    </div> -->
-    <div class="container">
-        <h1 class="title">Tic <span>Tac</span> Toe</h1>
-        <div class="status-action">
-            <div class="status">x is Next</div>
-            <div class="reset">Reset</div>
-        </div>
-        <div class="game-grid">
-            <div class="game-cell top-left"></div>
-            <div class="game-cell top-middle"></div>
-            <div class="game-cell top-right"></div>
-            <div class="game-cell middle-left"></div>
-            <div class="game-cell middle-middle"></div>
-            <div class="game-cell middle-right"></div>
-            <div class="game-cell bottom-left"></div>
-            <div class="game-cell bottom-middle"></div>
-            <div class="game-cell bottom-right"></div>
-        </div>
+    <div id="rules">
+        <section>
+            <h2>Game Rules</h2>
+            <ol>
+                <li class="rule-item">The game is played on a grid that's 3 squares by 3 squares.</li>
+                <li class="rule-item">You are X, your friend is O. Players take turns putting their marks in empty
+                    squares.</li>
+                <li class="rule-item">The first player to get 3 of her marks in a row (up, down, across, or diagonally)
+                    is the winner.</li>
+                <li class="rule-item">When all 9 squares are full, the game is over.</li>
+            </ol>
+        </section>
+        <section class="controls">
+            <button id="start">Start</button>
+        </section>
     </div>
-    <script src="app.js"></script>
+    <main id="background">
+        <section class="title">
+            <h1>Tic <span style="color: #545454;">Tac</span> Toe</h1>
+        </section>
+        <section class=" display">
+            Player <span class="display-player playerX">X</span>'s turn
+        </section>
+        <section class="display announcer hide"></section>
+        <section class="tile-container">
+            <section class="container">
+                <div class="tile"></div>
+                <div class="tile"></div>
+                <div class="tile"></div>
+                <div class="tile"></div>
+                <div class="tile"></div>
+                <div class="tile"></div>
+                <div class="tile"></div>
+                <div class="tile"></div>
+                <div class="tile"></div>
+            </section>
+        </section>
+        <section class="controls">
+            <button id="reset">Reset</button>
+        </section>
+    </main>
 </body>
+
 </html>

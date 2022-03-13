@@ -1,160 +1,126 @@
-// HTML Elements
-const statusDiv = document.querySelector('.status');
-const resetDiv = document.querySelector('.reset');
-const cellDivs = document.querySelectorAll('.game-cell');
-// const start = document.querySelector('#start-page');
-// const container = document.querySelector('.container');
+window.addEventListener('DOMContentLoaded', () => {
+    let background = document.querySelector("#background");
+    const startButton = document.querySelector('#start');
+    let rules = document.querySelector("#rules");
+    const tiles = Array.from(document.querySelectorAll('.tile'));
+    const playerDisplay = document.querySelector('.display-player');
+    const resetButton = document.querySelector('#reset');
+    const announcer = document.querySelector('.announcer');
 
-// game constants
+    let board = ['', '', '', '', '', '', '', '', ''];
+    let currentPlayer = 'X';
+    let isGameActive = true;
 
-//storing the symbols for x and o in the variables
-const xSymbol = '×';
-const oSymbol = '○';
+    const PLAYERX_WON = 'PLAYERX_WON';
+    const PLAYERO_WON = 'PLAYERO_WON';
+    const TIE = 'TIE';
 
-// game variables
+    const winningConditions = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
 
-//if this is true then the game is on and if not then we are going to set this false manually in case is someone won or etc
-let gameIsLive = true;
-let xIsNext = true; //if this variable is true then x has next turn
+    startButton.addEventListener('click', startGame);
 
-//what happen when 'Start' Button Will Click
-// start.addEventListener("click", () => {
-//     start.style.display = "none";
-//     container.style.display = "block";
-// });
-
-// functions
-
-//taking in the x or o and returning symbol for the same
-const letterToSymbol = (letter) => letter === 'x' ? xSymbol : oSymbol;
-
-const handleWin = (letter) => {
-    //this handles and prints if x has won or o and set gameIsLive to false since someone has won or game is tied so game should not proceed
-    gameIsLive = false;
-    if(letter === 'x'){
-        statusDiv.innerHTML = `${letterToSymbol(letter)} has won!`;
-//             if(letterToSymbol(letter)){
-//                    alert("X has Won");
-//             }   
-    }else{
-        statusDiv.innerHTML = `<span>${letterToSymbol(letter)} has won!</span>`;
+    function startGame() {
+        rules.style.display = "none";
+        background.style.display = "block";
     }
-};
 
-const checkGameStatus = () => {
-    const topLeft = cellDivs[0].classList[2];
-    const topMiddle = cellDivs[1].classList[2];
-    const topRight = cellDivs[2].classList[2];
-    const middleLeft = cellDivs[3].classList[2];
-    const middleMiddle = cellDivs[4].classList[2];
-    const middleRight = cellDivs[5].classList[2];
-    const bottomLeft = cellDivs[6].classList[2];
-    const bottomMiddle = cellDivs[7].classList[2];
-    const bottomRight = cellDivs[8].classList[2];
+    function handleResultValidation() {
+        let roundWon = false;
+        for (let i = 0; i <= 7; i++) {
+            const winCondition = winningConditions[i];
+            const a = board[winCondition[0]];
+            const b = board[winCondition[1]];
+            const c = board[winCondition[2]];
+            if (a === '' || b === '' || c === '') {
+                continue;
+            }
+            if (a === b && b === c) {
+                roundWon = true;
+                break;
+            }
+        }
 
-    // check winner
+        if (roundWon) {
+            announce(currentPlayer === 'X' ? PLAYERX_WON : PLAYERO_WON);
+            isGameActive = false;
+            return;
+        }
 
-    //we are checking for each starting to ending row and columns cells to check if there is some symbol or not also for win or tied
+        if (!board.includes(''))
+            announce(TIE);
+    }
 
-    if(topLeft && topLeft === topMiddle && topLeft === topRight){ //for row no. 1
-        handleWin(topLeft);
-        cellDivs[0].classList.add('won');
-        cellDivs[1].classList.add('won');
-        cellDivs[2].classList.add('won');
-    }else if(middleLeft && middleLeft === middleMiddle && middleLeft === middleRight){ //for row no. 2
-        handleWin(middleLeft);
-        cellDivs[3].classList.add('won');
-        cellDivs[4].classList.add('won');
-        cellDivs[5].classList.add('won');
-    }else if (bottomLeft && bottomLeft === bottomMiddle && bottomLeft === bottomRight){ //for row no. 3
-        handleWin(bottomLeft); 
-        cellDivs[6].classList.add('won');
-        cellDivs[7].classList.add('won');
-        cellDivs[8].classList.add('won');
-    }else if(topLeft && topLeft === middleLeft && topLeft === bottomLeft){ //for column no. 1
-        handleWin(topLeft);
-        cellDivs[0].classList.add('won');
-        cellDivs[3].classList.add('won');
-        cellDivs[6].classList.add('won');
-    }else if (topMiddle && topMiddle === middleMiddle && topMiddle === bottomMiddle){ //for column no. 2
-        handleWin(topMiddle);
-        cellDivs[1].classList.add('won');
-        cellDivs[4].classList.add('won');
-        cellDivs[7].classList.add('won');
-    }else if(topRight && topRight === middleRight && topRight === bottomRight){ //for column no. 3
-    handleWin(topRight);
-        cellDivs[2].classList.add('won');
-        cellDivs[5].classList.add('won');
-        cellDivs[8].classList.add('won');
-    }else if(topLeft && topLeft === middleMiddle && topLeft === bottomRight){ //for main diagonal
-        handleWin(topLeft);
-        cellDivs[0].classList.add('won');
-        cellDivs[4].classList.add('won');
-        cellDivs[8].classList.add('won');
-    }else if(topRight && topRight === middleMiddle && topRight === bottomLeft){ //for second diagonal
-        handleWin(topRight);
-        cellDivs[2].classList.add('won');
-        cellDivs[4].classList.add('won');
-        cellDivs[6].classList.add('won');
-    }else if(topLeft && topMiddle && topRight && middleLeft && middleMiddle && middleRight && bottomLeft && bottomMiddle && bottomRight){
-        //if each of the cell is occupied and none of the condition is true then match is tied
-        gameIsLive = false;
-        statusDiv.innerHTML = 'Game is tied!';
-    }else{
-        //if no condition is met the players should continue playing
-        xIsNext = !xIsNext;
-        //accessing and changing the value of turn for both x and o
-        if(xIsNext){
-            statusDiv.innerHTML = `${xSymbol} is next`;
-        }else{
-            statusDiv.innerHTML = `<span>${oSymbol} is next</span>`;
+    const announce = (type) => {
+        switch (type) {
+            case PLAYERO_WON:
+                announcer.innerHTML = 'Result: Player <span class="playerO">O</span> Won';
+                break;
+            case PLAYERX_WON:
+                announcer.innerHTML = 'Result: Player <span class="playerX">X</span> Won';
+                break;
+            case TIE:
+                announcer.innerText = 'Result: Tie';
+        }
+        announcer.classList.remove('hide');
+    };
+
+    const isValidAction = (tile) => {
+        if (tile.innerText === 'X' || tile.innerText === 'O') {
+            return false;
+        }
+
+        return true;
+    };
+
+    const updateBoard = (index) => {
+        board[index] = currentPlayer;
+    }
+
+    const changePlayer = () => {
+        playerDisplay.classList.remove(`player${currentPlayer}`);
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        playerDisplay.innerText = currentPlayer;
+        playerDisplay.classList.add(`player${currentPlayer}`);
+    }
+
+    const userAction = (tile, index) => {
+        if (isValidAction(tile) && isGameActive) {
+            tile.innerText = currentPlayer;
+            tile.classList.add(`player${currentPlayer}`);
+            updateBoard(index);
+            handleResultValidation();
+            changePlayer();
         }
     }
-};
 
+    const resetBoard = () => {
+        board = ['', '', '', '', '', '', '', '', ''];
+        isGameActive = true;
+        announcer.classList.add('hide');
 
-// event Handlers
-const handleReset = () => {
-    xIsNext = true;
-    statusDiv.innerHTML = `${xSymbol} is next`;
-    //when game is reset then all the new added classes should be removed from classList which will inturn remove all the symbols
-    for (const cellDiv of cellDivs){
-        cellDiv.classList.remove('x');
-        cellDiv.classList.remove('o');
-        cellDiv.classList.remove('won');
-    }
-    //it is set to true so that a new game can be started
-    gameIsLive = true;
-};
+        if (currentPlayer === 'O') {
+            changePlayer();
+        }
 
-
-//this handles what should happen when some player clicks the cell with its symbol
-const handleCellClick = (e) => {
-    const classList = e.target.classList;
-
-    //if some element is already there then do nothing and return
-    if(!gameIsLive || classList[1] === 'x' || classList[1] === 'o'){
-        return;
+        tiles.forEach(tile => {
+            tile.innerText = '';
+            tile.classList.remove('playerX');
+            tile.classList.remove('playerO');
+        });
     }
 
-    //if no element is present in the box then check if xIsNext is true & add x to the classList else add o 
-    //and set that to opposite of the present one (xisNext is used to check if X has the next turn or not)
-    if(xIsNext){
-        classList.add('x');
-        checkGameStatus(); //checking the status of the game after each click to see if we have to put x or o
-    }else{
-        classList.add('o');
-        checkGameStatus();
-    }
-};
+    tiles.forEach((tile, index) => {
+        tile.addEventListener('click', () => userAction(tile, index));
+    });
 
-
-// event listeners
-
-//adding event listeners to reset button and each of 9 game cells
-
-resetDiv.addEventListener('click', handleReset);
-
-for(const cellDiv of cellDivs){
-  cellDiv.addEventListener('click', handleCellClick)
-}
+    resetButton.addEventListener('click', resetBoard);
+});
